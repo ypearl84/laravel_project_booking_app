@@ -35,3 +35,18 @@ Route::get('/home', function () {
 });
 
 Route::get('/di', 'ClientController@di');
+
+Route::get('/facades/db', function () { 
+
+    return DB::select('Select * from table');
+});
+
+Route::get('/facades/encrypt', function () { 
+
+    return Crypt::encrypt('1234');
+});
+
+Route::get('/facades/decrypt', function () { 
+
+    return Crypt::decrypt('eyJpdiI6Ijl1NFMxcG9lT1lIYXRyNzY0anR1OVE9PSIsInZhbHVlIjoiT3NCVnpqZUcvSStzVWdIa1FOY09pdz09IiwibWFjIjoiYmE1YzUxM2RkYTBjZWUxNjcxMDBlMWIzOTJmMDhhMDZhMTg1NTU1NjUyNjI2MDI4MTRmZjg1NjNjOWE4YTc2MSJ9');
+});
