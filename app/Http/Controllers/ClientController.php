@@ -40,7 +40,12 @@ class ClientController extends Controller
     }
 
     public function newClient() {
-        return view('client/newClient');
+        
+        $data = [];
+        $data['titles'] = $this->titles;
+        $data['modify'] = 0;
+
+        return view('client/form', $data);
     }
 
     public function create() {
@@ -48,6 +53,10 @@ class ClientController extends Controller
     }
 
     public function show($client_id) {
-        return view('client/show');
+        $data = [];
+        $data['titles'] = $this->titles;
+        $data['modify'] = 1;
+
+        return view('client/form', $data);
     }
 }

@@ -3,17 +3,15 @@
 @section('content')
 <div class="row">
       <div class="medium-12 large-12 columns">
-        <h4>New Client</h4>
-        <form action="/clients/new" method="post">
+        <h4>{{$modify == 1 ? 'Modify' : 'New'}} Client</h4>
+        <form action="{{$modify == 1 ? route('update_client', ['client_id' => 1]) : route('create_client')}}" method="post">
           <div class="medium-4  columns">
             <label>Title</label>
             <select name="form[title]">
-                          <option value="mr" selected="selected">Mr.</option>
-                          <option value="ms">Ms.</option>
-                          <option value="mrs">Mrs.</option>
-                          <option value="dr">Dr.</option>
-                          <option value="mx">Mx.</option>
-                        </select>
+            @foreach( $titles as $title )
+                <option value="{{ $title }}">{{ $title }}.</option> 
+            @endforeach
+            </select>
           </div>
           <div class="medium-4  columns">
             <label>Name</label>
