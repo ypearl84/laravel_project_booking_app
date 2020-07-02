@@ -9,26 +9,27 @@ use App\Client as Client;
 class ClientController extends Controller
 {
     //
-    public function __construct(Title $titles, Client $client) {
+    public function __construct( Title $titles, Client $client )
+    {
         $this->titles = $titles->all();
         $this->client = $client;
     }
 
-    public function di() {
+    public function di()
+    {
         dd($this->titles);
     }
 
-    public function index() {
-
+    public function index()
+    {
         $data = [];
 
         $data['clients'] = $this->client->all();
-
         return view('client/index', $data);
     }
 
-    public function newClient(Request $request, Client $client) {
-        
+    public function newClient( Request $request, Client $client )
+    {
         $data = [];
 
         $data['title'] = $request->input('title');
@@ -39,10 +40,12 @@ class ClientController extends Controller
         $data['city'] = $request->input('city');
         $data['state'] = $request->input('state');
         $data['email'] = $request->input('email');
+        
 
-       
 
-        if($request->isMethod('post')) {
+        if( $request->isMethod('post') )
+        {
+            //dd($data);
             $this->validate(
                 $request,
                 [
@@ -53,45 +56,43 @@ class ClientController extends Controller
                     'city' => 'required',
                     'state' => 'required',
                     'email' => 'required',
+
                 ]
             );
 
             $client->insert($data);
-                    
+
             return redirect('clients');
         }
-
-        $data['titles'] = $this->titles;
-        $data['modify'] = 0;
-
+        
         return view('client/form', $data);
     }
 
-    public function create() {
-        return view('client/create');
+    public function create()
+    {
+            return view('client/create');
     }
 
-    public function show($client_id) {
+    public function show($client_id)
+    {
         $data = []; $data['client_id'] = $client_id;
         $data['titles'] = $this->titles;
         $data['modify'] = 1;
-
         $client_data = $this->client->find($client_id);
-        
         $data['name'] = $client_data->name;
         $data['last_name'] = $client_data->last_name;
         $data['title'] = $client_data->title;
+        $data['address'] = $client_data->address;
+        $data['zip_code'] = $client_data->zip_code;
         $data['city'] = $client_data->city;
         $data['state'] = $client_data->state;
-        $data['zip_code'] = $client_data->zip_code;
-        $data['address'] = $client_data->address;
-        $data['email'] = $client_data->email; 
-
+        $data['email'] = $client_data->email;
+        
         return view('client/form', $data);
     }
 
-    public function modify(Request $request, $client_id, Client $client) {
-        
+    public function modify( Request $request, $client_id, Client $client )
+    {
         $data = [];
 
         $data['title'] = $request->input('title');
@@ -102,10 +103,12 @@ class ClientController extends Controller
         $data['city'] = $request->input('city');
         $data['state'] = $request->input('state');
         $data['email'] = $request->input('email');
+        
 
-       
 
-        if($request->isMethod('post')) {
+        if( $request->isMethod('post') )
+        {
+            //dd($data);
             $this->validate(
                 $request,
                 [
@@ -116,10 +119,10 @@ class ClientController extends Controller
                     'city' => 'required',
                     'state' => 'required',
                     'email' => 'required',
+
                 ]
             );
 
-            //$client->insert($data);
             $client_data = $this->client->find($client_id);
 
             $client_data->title = $request->input('title');
@@ -132,10 +135,11 @@ class ClientController extends Controller
             $client_data->email = $request->input('email');
 
             $client_data->save();
-                    
-            return redirect('clients');
-        } 
 
+            return redirect('clients');
+        }
+        
         return view('client/form', $data);
     }
+
 }
